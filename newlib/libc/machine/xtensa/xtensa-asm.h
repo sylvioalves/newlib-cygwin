@@ -1,4 +1,4 @@
-/* Copyright (c) 2006 - 2016 Tensilica Inc.
+/* Copyright (c) 2006 Tensilica Inc.
 
    Permission is hereby granted, free of charge, to any person obtaining
    a copy of this software and associated documentation files (the
@@ -26,19 +26,15 @@
 # macros do not allocate any extra stack space, so they only work for
 # leaf functions that do not need to spill anything to the stack.
 
-	.macro	leaf_entry reg
+	.macro leaf_entry reg, size
 #if XCHAL_HAVE_WINDOWED && !__XTENSA_CALL0_ABI__
-#if XCHAL_HAVE_XEA3
-	entry	\reg, 32
-#else
-	entry	\reg, 16
-#endif
+	entry \reg, \size
 #else
 	/* do nothing */
 #endif
 	.endm
 
-	.macro	leaf_return
+	.macro leaf_return
 #if XCHAL_HAVE_WINDOWED && !__XTENSA_CALL0_ABI__
 	retw
 #else
@@ -73,3 +69,4 @@
 #define	MASK2 0x00ff0000
 #define	MASK3 0xff000000
 #endif
+
